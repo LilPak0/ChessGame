@@ -32,6 +32,20 @@ export function useGame() {
     const [currentTurn, setCurrentTurn] = useState<"white" | "black">("white");
     const [selectedPiece, setSelectedPiece] = useState<{ row: number; col: number } | null>(null);
 
+    const movePiece = (from: { row: number; col: number }, to: { row: number; col: number }) => {
+        if (!selectedPiece) return;
+        const piece = board[selectedPiece.row][selectedPiece.col];
+        if (piece === "") return;
+
+        setBoard((prevBoard) => {
+            const newBoard = [...prevBoard];
+            newBoard[selectedPiece.row][selectedPiece.col] = "";
+            newBoard[to.row][to.col] = piece;
+            return newBoard;
+        });
+        setCurrentTurn((prevTurn) => (prevTurn === "white" ? "black" : "white"));
+        setSelectedPiece(null);
+    };
 
     const resetGame = () => {
         setBoard(initialBoard);
@@ -39,5 +53,5 @@ export function useGame() {
         setSelectedPiece(null);
     };
 
-    return {board, currentTurn, selectedPiece, resetGame}; // Return the state and functions
+    return {board, currentTurn, setSelectedPiece, resetGame}; // Return the state and functions
 }

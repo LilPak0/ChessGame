@@ -1,15 +1,33 @@
 import Piece from "./Pieces";
 
 export default class Bishop extends Piece {
-    initPos: { row: number; col: number };
-    constructor(color: "white" | "black", initPos: { row: number; col: number }) {
-        super(color);
-        this.initPos = initPos;
-    }
 
-    possibleMoves(board: (string | Bishop)[][], row: number, col: number): { row: number; col: number; capture?: boolean }[] {
+    possibleMoves(board: (null | Bishop)[][], row: number, col: number): { row: number; col: number; capture?: boolean }[] {
         const moves: { row: number; col: number; capture?: boolean }[] = [];
+        const directions = [
+            { row: 1, col: -1 },  // Down Left
+            { row: 1, col: 1 }, // Down Right
+            { row: -1, col: 1 },  // Up Right
+            { row: -1, col: -1 }, // Up Left
+        ];
 
+        for (const { row: dRow, col: dCol } of directions) {
+            for (let i = 1; i < 8; i++) {
+                const newRow = row + dRow * i;
+                const newCol = col + dCol * i;
+                if (newRow < 0 || newRow >= board.length || newCol < 0 || newCol >= board[0].length) break;
+
+                const target = board[newRow][newCol];
+                if (target === null) {
+                    moves.push({ row: newRow, col: newCol });
+                } else if (target instanceof Piece && target.color !== this.color) {
+                    moves.push({ row: newRow, col: newCol, capture: true });
+                    break;
+                } else {
+                    break;
+                }
+            }
+        }
         return moves;
     }
 }

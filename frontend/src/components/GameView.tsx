@@ -2,7 +2,7 @@ import Piece from '../classes/Pieces';
 import { useState } from 'react';
 
 type GameViewProps = {
-    board: (string | Piece)[][];
+    board: (null | Piece)[][];
     currentTurn: "white" | "black";
     setCurrentTurn: (turn: "white" | "black") => void;
     selectedPiece: { row: number; col: number } | null;
@@ -51,8 +51,7 @@ function GameView({ board, currentTurn, setCurrentTurn,setSelectedPiece, movePie
                             <div
                                 key={`${rowIndex}-${cellIndex}`}
                                 className={`w-20 h-20 flex items-center justify-center relative cursor-pointer
-                                            ${(cellIndex - rowIndex) % 2 === 0 ? "bg-white" : "bg-[#7C787E]"}
-                                            ${selected ? "bg-blue-200" : ""}
+                                            ${selected ? "bg-blue-200" : (cellIndex - rowIndex) % 2 === 0 ? "bg-white" : "bg-[#7C787E]"}
                                         `}
                                 onClick={() => handleCellClick(cell, rowIndex, cellIndex)}
                             >
@@ -63,6 +62,18 @@ function GameView({ board, currentTurn, setCurrentTurn,setSelectedPiece, movePie
                                         )}
                                         {cell.constructor.name === "Rook" && (
                                             <img src={cell.color === "white" ? '/Icons/Wrook.png' : '/Icons/Brook.png'} alt="" />
+                                        )}
+                                        {cell.constructor.name === "Bishop" && (
+                                            <img src={cell.color === "white" ? '/Icons/Wbishop.png' : '/Icons/Bbishop.png'} alt="" />
+                                        )}
+                                        {cell.constructor.name === "Knight" && (
+                                            <img src={cell.color === "white" ? '/Icons/Wknight.png' : '/Icons/Bknight.png'} alt="" />
+                                        )}
+                                        {cell.constructor.name === "King" && (
+                                            <img src={cell.color === "white" ? '/Icons/Wking.png' : '/Icons/Bking.png'} alt="" />
+                                        )}
+                                        {cell.constructor.name === "Queen" && (
+                                            <img src={cell.color === "white" ? '/Icons/Wqueen.png' : '/Icons/Bqueen.png'} alt="" />
                                         )}
                                     </div>
                                 ) : null}

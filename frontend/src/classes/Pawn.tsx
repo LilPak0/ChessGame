@@ -7,16 +7,16 @@ export default class Pawn extends Piece {
         this.initPos = initPos;
     }
 
-    possibleMoves(board: (string | Pawn)[][], row: number, col: number): { row: number; col: number; capture?: boolean }[] {
+    possibleMoves(board: (null | Pawn)[][], row: number, col: number): { row: number; col: number; capture?: boolean }[] {
         const moves: { row: number; col: number; capture?: boolean }[] = [];
-        const direction = this.color === "white" ? -1 : 1;
+        const direction = this.initPos.row === 6 ? -1 : 1;
 
         // One square forward
         const nextRow = row + direction;
         if (
             nextRow >= 0 &&
             nextRow < board.length &&
-            board[nextRow][col] === ""
+            board[nextRow][col] === null
         ) {
             moves.push({ row: nextRow, col });
 
@@ -27,8 +27,8 @@ export default class Pawn extends Piece {
                 isAtInitial &&
                 twoAhead >= 0 &&
                 twoAhead < board.length &&
-                board[twoAhead][col] === "" &&
-                board[nextRow][col] === ""
+                board[twoAhead][col] === null &&
+                board[nextRow][col] === null
             ) {
                 moves.push({ row: twoAhead, col });
             }

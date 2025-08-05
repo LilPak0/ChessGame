@@ -4,7 +4,7 @@ export default class Piece {
         this.color = color;
     }
 
-    possibleMoves(board: (string | Piece)[][], row: number, col: number): { row: number; col: number }[] {
+    possibleMoves(board: (null | Piece)[][], row: number, col: number): { row: number; col: number }[] {
         return []; // Default implementation, should be overridden by subclasses
     }
 }
